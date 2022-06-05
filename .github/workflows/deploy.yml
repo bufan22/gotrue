@@ -29,6 +29,7 @@ jobs:
     - run: mkdir dist-${{ steps.vars.outputs.sha_short }}
     - run: mv gotrue dist-${{ steps.vars.outputs.sha_short }}/
     - run: mv gotrue-arm64 dist-${{ steps.vars.outputs.sha_short }}/
+    - run: mv migrations dist-${{ steps.vars.outputs.sha_short }}/
     
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
@@ -37,6 +38,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
           REMOTE_PORT: ${{ secrets.DEPLOY_PORT }}
           REMOTE_USER: ${{ secrets.DEPLOY_USER }}
-          SOURCE: "dist-${{ steps.vars.outputs.sha_short }}, migrations"
+          SOURCE: "dist-${{ steps.vars.outputs.sha_short }}"
           TARGET: ${{ secrets.DEPLOY_PATH }}
   
