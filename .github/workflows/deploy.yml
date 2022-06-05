@@ -23,7 +23,7 @@ jobs:
     - run: make deps
     - run: make all
     
-    - run: tar -czvf gotrue-${{ github.sha::7 }}-x86.tar.gz gotrue migrations/
+    - run: tar -czvf gotrue-x86.${{ github.sha }}.tar.gz gotrue migrations/
     - run: mv gotrue-arm64 gotrue
-    - run: tar -czvf gotrue-${{ github.sha::7 }}-arm64.tar.gz gotrue migrations/
+    - run: tar -czvf gotrue-arm64.${{ github.sha }}.tar.gz gotrue migrations/
     
