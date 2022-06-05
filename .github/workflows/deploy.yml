@@ -23,7 +23,10 @@ jobs:
     - run: make deps
     - run: make all
     
-    - run: tar -czvf gotrue-x86.${{ github.sha }}.tar.gz gotrue migrations/
+    - id: vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    
+    - run: tar -czvf gotrue-x86.${{ steps.vars.outputs.sha_short }}.tar.gz gotrue migrations/
     - run: mv gotrue-arm64 gotrue
-    - run: tar -czvf gotrue-arm64.${{ github.sha }}.tar.gz gotrue migrations/
+    - run: tar -czvf gotrue-arm64.${{ steps.vars.outputs.sha_short }}.tar.gz gotrue migrations/
     
