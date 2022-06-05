@@ -26,7 +26,17 @@ jobs:
     - id: vars
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     
-    - run: tar -czvf gotrue-x86.${{ steps.vars.outputs.sha_short }}.tar.gz gotrue migrations/
-    - run: mv gotrue-arm64 gotrue
-    - run: tar -czvf gotrue-arm64.${{ steps.vars.outputs.sha_short }}.tar.gz gotrue migrations/
+#    - run: tar -czvf gotrue-x86.${{ steps.vars.outputs.sha_short }}.tar.gz gotrue migrations/
+#    - run: mv gotrue-arm64 gotrue
+#    - run: tar -czvf gotrue-arm64.${{ steps.vars.outputs.sha_short }}.tar.gz gotrue migrations/
     
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
+          REMOTE_PORT: ${{ secrets.DEPLOY_PORT }}
+          REMOTE_USER: ${{ secrets.DEPLOY_USER }}
+          SOURCE: "gotrue, migrations"
+          TARGET: ${{ secrets.DEPLOY_PATH }}
+  
