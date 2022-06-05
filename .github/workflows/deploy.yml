@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+
+    - run: make deps
+    - run: make all
+    
+    - run: tar -czvf gotrue-${GITHUB_SHA::6}-x86.tar.gz gotrue migrations/
+    - run: mv gotrue-arm64 gotrue
+    - run: tar -czvf gotrue-${GITHUB_SHA::6}-arm64.tar.gz gotrue migrations/
+    
